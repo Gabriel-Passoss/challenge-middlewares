@@ -45,7 +45,7 @@ describe('checksCreateTodosUserAvailability', () => {
   it('should be able to let user create a new todo when is in free plan and have less than ten todos', () => {
     const mockRequest = request({
       user: {
-        id: v4(),
+        id: "e7cc3c36-6711-4f7b-a6b4-90af8ab7a0c9",
         name: 'Atlas',
         username: 'atlas',
         pro: false,
@@ -63,12 +63,12 @@ describe('checksCreateTodosUserAvailability', () => {
   it('should not be able to let user create a new todo when is not Pro and already have ten todos', () => {
     const mockRequest = request({
       user: {
-        id: v4(),
+        id: "e7cc3c36-6711-4f7b-a6b4-90af8ab7a0c9",
         name: 'Atlas',
         username: 'atlas',
         pro: false,
         todos: Array.from({ length: 10 }, () => ({
-          id: v4(),
+          id: "e7cc3c36-6711-4f7b-a6b4-90af8ab7a0c9",
           title: 'Todo',
           deadline: new Date(),
           done: false,
@@ -87,12 +87,12 @@ describe('checksCreateTodosUserAvailability', () => {
   it('should be able to let user create infinite new todos when is in Pro plan', () => {
     const mockRequest = request({
       user: {
-        id: v4(),
+        id: "e7cc3c36-6711-4f7b-a6b4-90af8ab7a0c9",
         name: 'Atlas',
         username: 'atlas',
         pro: true,
         todos: Array.from({ length: 10 }, () => ({
-          id: v4(),
+          id: "e7cc3c36-6711-4f7b-a6b4-90af8ab7a0c9",
           title: 'Todo',
           deadline: new Date(),
           done: false,

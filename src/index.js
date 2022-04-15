@@ -7,22 +7,68 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const users = [];
+const users = []
 
 function checksExistsUserAccount(request, response, next) {
-  // Complete aqui
-}
+  const { username } = request.headers
 
-function checksCreateTodosUserAvailability(request, response, next) {
-  // Complete aqui
-}
+  const user = users.find(user => user.username === username)
 
-function checksTodoExists(request, response, next) {
-  // Complete aqui
+  if(!user) {
+    return response.status(404).json({error: 'User not found'})  
+  }
+
+  request.user = user
+
+  next()
 }
 
 function findUserById(request, response, next) {
-  // Complete aqui
+  const { id } = request.params
+
+  const user = users.find(user => user.id === id)
+
+  if(!user) {
+    return response.status(404).json({error: 'User not found'})
+  }
+
+  request.user = user
+
+  next()
+}
+
+function checksCreateTodosUserAvailability(request, response, next) {
+  const { user } = request
+
+  if(user.pro === false && user.todos.length < 10) {
+    next()
+  } else if(user.pro === true) {
+    next()
+  } else {
+    response.status(403).json({error: "Maximum to-do rate reached"})
+  }
+}
+
+function checksTodoExists(request, response, next) {
+  const { username } = request.headers
+  const { id } = request.params
+
+  if(!validate(id)) {
+    return response.status(400)
+  }
+
+  const user = users.find(user => user.username === username)
+  const todo = user.todos.some(todo => todo.id === todo)
+  
+  if (!!todo && !!user) {
+    request.user = user
+    request.todo = todo
+
+    next()
+  } else {
+    response.status(404)
+  }
+
 }
 
 app.post('/users', (request, response) => {
